@@ -2,9 +2,6 @@
 
 Unfollows Instagram accounts that don't follow you back
 
-## Introduction
-Unfollows Instagram accounts that don't follow you back
-
 ## System Requirements
 Name           | Terminal Command
 ---            | ---
