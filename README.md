@@ -16,7 +16,7 @@ Selenium       | `pip3 install selenium`
 - type `python3 ig_unfollower.py 'USERNAME' 'PASSWORD'` in Terminal
     - For example, `python3 ig_unfollower.py 'lebronjames' 'imisskyrie'`
     - If your username and/or password contain `spaces`, `&`, `[`, `\`, or any other characters that throw off command line arguments, put single (or double) quotes around your username and/or password
-    - Else, you don't have to :)
+    - If not, you don't have to
 - list of unfollowers unfollowed is capped at 100
 - feel free to update your whitelist in `python3 ig_unfollower.py` line 24 as needed
 
