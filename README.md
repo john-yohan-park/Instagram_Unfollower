@@ -18,6 +18,6 @@ Selenium       | `pip3 install selenium`
     - If your username and/or password contain `spaces`, `&`, `[`, `\`, or any other characters that throw off command line arguments, put single (or double) quotes around your username and/or password
     - If not, you don't have to
 - list of accounts to unfollow is capped at 100
-- feel free to update your whitelist in `python3 ig_unfollower.py` line 24 as needed
+- update your whitelist in `python3 ig_unfollower.py` `line 24` as needed
 
 Fork or clone this repo and mod it any way you'd like :)
