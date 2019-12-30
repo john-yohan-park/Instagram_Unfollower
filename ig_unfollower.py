@@ -63,7 +63,7 @@ class IG_Unfollower(object):
         follower_btn = self.driver.find_element_by_css_selector(f"[href='/{self.username}/followers/']")
         follower_btn.click()
 
-        print('Gathering your followers...')
+        print('Gathering followers...')
         self.scroll_and_collect_users(self.followers)
 
     def scroll_and_collect_users(self, gathered_users):
@@ -84,7 +84,7 @@ class IG_Unfollower(object):
         print('Gathering unfollowers...')
         self.unfollowers = self.following - self.followers # unfollowers = set of following - set of followers
 
-        print('You have ' + str(len(self.unfollowers)) + ' unfollowers.')
+        print('You have ' + str(len(self.unfollowers)) + ' unfollowers')
         if(len(self.unfollowers)>100):        # if num unfollowers > 100
             while(len(self.unfollowers)>100): # cap accounts unfollowed at 100
                 self.unfollowers.pop()
