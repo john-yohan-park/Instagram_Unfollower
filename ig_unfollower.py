@@ -39,7 +39,7 @@ class IG_Unfollower(object):
         pwd_box.send_keys(self.password)
 
         # press log in btn
-        time.sleep(randrange(3)+2)
+        time.sleep(randrange(2)+1)
         login_btn = self.driver.find_element_by_css_selector("[class='sqdOP  L3NKy   y3zKF     ']")
         login_btn.click()
         time.sleep(randrange(5)+3)
