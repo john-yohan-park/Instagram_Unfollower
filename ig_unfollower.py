@@ -52,7 +52,7 @@ class IG_Unfollower(object):
         following_btn.click() # click 'following' link
 
         print('Gathering accounts you follow...')
-        self.scroll_and_collect(self.following) # scroll & collect users from link
+        self.scroll_and_collect(self.following) # scroll & collect users
 
     def get_followers(self):    
         self.driver.get(f'https://www.instagram.com/{self.username}/')
