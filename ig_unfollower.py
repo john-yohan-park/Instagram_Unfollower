@@ -21,47 +21,51 @@ class IG_Unfollower(object):
         self.following   = set()
         self.followers   = set()
         self.unfollowers = set()
-        self.whitelist   = ['kingjames', 'espn', 'abcnews', 'pbs'] # list of accounts to not unfollow
+        self.whitelist   = ['espn', 'abcnews', 'pbs'] # list of accounts to not unfollow
 
     def login(self):
         print('Logging in...')
         self.driver.get('https://www.instagram.com/accounts/login/?hl=en')
         self.wait_by_class_name('_2hvTZ')
 
+        # fill in username
         username_box = self.driver.find_element_by_css_selector("[aria-label='Phone number, username, or email']")
         username_box.click()
         username_box.send_keys(self.username)
 
+        # fill in password
         pwd_box = self.driver.find_element_by_css_selector("[aria-label='Password']")
         pwd_box.click()
         pwd_box.send_keys(self.password)
 
-        time.sleep(randrange(4))
-
+        # press log in btn
+        time.sleep(randrange(3)+2)
         login_btn = self.driver.find_element_by_css_selector("[class='sqdOP  L3NKy   y3zKF     ']")
         login_btn.click()
+        time.sleep(randrange(5)+3)
 
-        time.sleep(randrange(4)+3)
-
-    def wait_by_class_name(self, class_name): # wait 3 sec or until class_name appears
-        try: WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.CLASS_NAME, class_name)))
-        except TimeoutException: print('Could not find ' + class_name) # print if takes too long
-    
     def get_following(self): 
-        self.driver.get('https://www.instagram.com/ben.alfred.johnson/')
-        self.wait_by_class_name('-nal3 ')
+        self.driver.get(f'https://www.instagram.com/{self.username}/')
+        #self.wait_by_class_name('-nal3 ')
+        self.wait_by_css('a.-nal3')
+        #self.wait_by_xpath("//button[text()='Not Now']")
 
-        following_btn = self.driver.find_element_by_css_selector("[class='-nal3 '][href='/ben.alfred.johnson/following/']")
+        following_btn = self.driver.find_element_by_css_selector(f"[href='/{self.username}/following/']")
+        #following_btn = self.driver.find_element_by_xpath("//a[class='-nal3 ' and text()='following']")
         following_btn.click()
 
         print('Gathering accounts you follow...')
         self.scroll_and_collect_users(self.following)
 
     def get_followers(self):    
-        self.driver.get('https://www.instagram.com/' + self.username + '/')
-        self.wait_by_class_name('-nal3 ')
+        self.driver.get(f'https://www.instagram.com/{self.username}/')
+        self.wait_by_css('a.-nal3')
+        #self.wait_by_class_name('-nal3 ')
+        #self.wait_by_xpath("//button[text()='Not Now']")
 
-        follower_btn = self.driver.find_element_by_css_selector("[class='-nal3 '][href='/ben.alfred.johnson/followers/']")
+        follower_btn = self.driver.find_element_by_css_selector(f"[href='/{self.username}/followers/']")
+        #follower_btn = self.driver.find_element_by_css_selector("[class='-nal3 '][href='/ben.alfred.johnson/followers/']")
+        #follower_btn = self.driver.find_element_by_xpath("//a[class='-nal3 ' and text()='followers']")
         follower_btn.click()
 
         print('Gathering your followers...')
@@ -93,16 +97,25 @@ class IG_Unfollower(object):
         print('Unfollowing users...')        
         for unfollower in self.unfollowers:
             if unfollower not in self.whitelist:
-                self.driver.get('https://www.instagram.com/' + unfollower + '/')
-                self.wait_by_xpath("//button[@type='button' and text()='Following']")
+                self.driver.get(f'https://www.instagram.com/{unfollower}/')
+                self.wait_by_xpath("//button[text()='Following']")
                 
                 time.sleep(randrange(2)+1)
-                follow_btn = self.driver.find_element_by_xpath("//button[@type='button' and text()='Following']")
+                follow_btn = self.driver.find_element_by_xpath("//button[text()='Following']")
                 follow_btn.click()
 
                 time.sleep(randrange(2)+1)
                 confirm_unfollow_btn = self.driver.find_element_by_css_selector('button.aOOlW.-Cab_')
                 confirm_unfollow_btn.click()
+
+    # wait functions
+    def wait_by_class_name(self, class_name): # wait 3 sec or until class_name appears
+        try: WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.CLASS_NAME, class_name)))
+        except TimeoutException: print('Could not find ' + class_name) # print if takes too long
+    
+    def wait_by_css(self, css):
+        try: WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, css)))
+        except TimeoutException: print('Could not find ' + css) # print if takes too long
 
     def wait_by_xpath(self, path): # wait 3 sec or until class_name appears
         try: WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.XPATH, path)))
