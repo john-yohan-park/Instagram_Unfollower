@@ -46,15 +46,13 @@ class IG_Unfollower(object):
 
     def get_following(self): 
         self.driver.get(f'https://www.instagram.com/{self.username}/')
-        self.wait_by_css('a.-nal3')
-        #self.wait_by_xpath("//button[text()='Not Now']")
+        self.wait_by_css('a.-nal3') # wait for target css label
 
         following_btn = self.driver.find_element_by_css_selector(f"[href='/{self.username}/following/']")
-        #following_btn = self.driver.find_element_by_xpath("//a[class='-nal3 ' and text()='following']")
-        following_btn.click()
+        following_btn.click() # click 'following' link
 
         print('Gathering accounts you follow...')
-        self.scroll_and_collect_users(self.following)
+        self.scroll_and_collect(self.following) # scroll & collect users from link
 
     def get_followers(self):    
         self.driver.get(f'https://www.instagram.com/{self.username}/')
@@ -64,9 +62,9 @@ class IG_Unfollower(object):
         follower_btn.click()
 
         print('Gathering followers...')
-        self.scroll_and_collect_users(self.followers)
+        self.scroll_and_collect(self.followers)
 
-    def scroll_and_collect_users(self, gathered_users):
+    def scroll_and_collect(self, gathered_users):
         time.sleep(randrange(3)+2)
         scrollable = self.driver.find_element_by_css_selector('div.isgrP') # find scrollable window
         last_height = self.driver.execute_script('return arguments[0].scrollHeight', scrollable) # track scrollable window's height
@@ -103,8 +101,7 @@ class IG_Unfollower(object):
                 
                 time.sleep(randrange(2)+1)
                 follow_btn = self.driver.find_element_by_xpath("//button[text()='Following']")
-                #follow_btn.click() # find & click unfollow
-                self.driver.execute_script("arguments[0].click()", follow_btn)
+                self.driver.execute_script("arguments[0].click()", follow_btn) # click Following
 
                 time.sleep(randrange(2)+1)
                 confirm_unfollow_btn = self.driver.find_element_by_css_selector('button.aOOlW.-Cab_')
